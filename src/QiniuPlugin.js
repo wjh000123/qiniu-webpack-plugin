@@ -43,7 +43,8 @@ class QiniuPlugin {
         }
         return valid;
       }).map((fileName) => {
-        const key = slash(join(path, fileName));
+        // remove [?hash] tag in fileName
+        const key = slash(join(path, fileName.replace(/\?.*/, '')));
         const putPolicy = new qiniu.rs.PutPolicy(`${bucket}:${key}`);
         const token = putPolicy.token();
         const extra = new qiniu.io.PutExtra();
